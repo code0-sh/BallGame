@@ -7,15 +7,22 @@
 //
 
 import SpriteKit
+import CoreMotion
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    // CMMotionManagerを格納する変数
+    var motionManager: CMMotionManager!
+    // ボールの色
+    var ballColor: [CGFloat] = [0, 0, 0]
+    var ballCollection: [SKShapeNode] = [];
 
     func initObjects(){
         // ボール
         for i in 0..<10 {
             var radius: CGFloat = 20
             var ball = SKShapeNode(circleOfRadius:radius)
-            ball.fillColor = UIColor(red: 0, green: 1, blue: 0, alpha: 1)
+            ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
             // ランダムに配置
             var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width-radius*2)))
             var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height-radius*2)))
@@ -28,6 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.physicsBody?.mass = 1.0 // 質量
             ball.physicsBody?.friction = 0.0 // 摩擦
             ball.physicsBody?.contactTestBitMask = 1
+            self.ballCollection.append(ball)
         }
     }
     
@@ -62,7 +70,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMoveToView(view: SKView) {
-        initObjects()
+        // 初期化処理
+        self.initObjects()
         // 重力
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -3.0)
         self.physicsWorld.contactDelegate = self
@@ -71,6 +80,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.linearDamping = 0.0 // 空気抵抗
         self.physicsBody?.friction = 0.0 // 摩擦
         self.name = "frame"
+        
+        // CMMotionManagerを生成
+        motionManager = CMMotionManager()
+        // 加速度の値の取得間隔を設定する
+        motionManager.accelerometerUpdateInterval = 0.1
+        // ハンドラを設定する
+        let accelerometerHandler = {
+            (data:CMAccelerometerData!, error:NSError!)-> Void in
+            println("x:\(data.acceleration.x) y:\(data.acceleration.y) z:\(data.acceleration.z)")
+            self.ballColor = [(CGFloat)(abs(data.acceleration.x)), (CGFloat)(abs(data.acceleration.y)), (CGFloat)(abs(data.acceleration.z))]
+        }
+        // 取得開始して、上記で設定したハンドラを呼び出し、ログを表示する
+        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: accelerometerHandler)
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -80,5 +102,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
    
     override func update(currentTime: CFTimeInterval) {
+        for ball in ballCollection {
+            ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
+        }
     }
 }

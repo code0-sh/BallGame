@@ -14,6 +14,7 @@
 		136325FC1B61B7690082AC65 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 136325FB1B61B7690082AC65 /* Images.xcassets */; };
 		136325FF1B61B7690082AC65 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 136325FD1B61B7690082AC65 /* LaunchScreen.xib */; };
 		1363260B1B61B76A0082AC65 /* BallGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1363260A1B61B76A0082AC65 /* BallGameTests.swift */; };
+		136326AC1B621A000082AC65 /* ConflictParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 136326AA1B621A000082AC65 /* ConflictParticle.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		136326041B61B7690082AC65 /* BallGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BallGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		136326091B61B76A0082AC65 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1363260A1B61B76A0082AC65 /* BallGameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallGameTests.swift; sourceTree = "<group>"; };
+		136326AA1B621A000082AC65 /* ConflictParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ConflictParticle.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			children = (
 				136325F01B61B7690082AC65 /* AppDelegate.swift */,
 				136325F41B61B7690082AC65 /* GameScene.swift */,
+				136326AA1B621A000082AC65 /* ConflictParticle.sks */,
 				136325F61B61B7690082AC65 /* GameViewController.swift */,
 				136325F81B61B7690082AC65 /* Main.storyboard */,
 				136325FB1B61B7690082AC65 /* Images.xcassets */,
@@ -164,6 +167,7 @@
 				TargetAttributes = {
 					136325EA1B61B7690082AC65 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = W59GYK9R6Y;
 					};
 					136326031B61B7690082AC65 = {
 						CreatedOnToolsVersion = 6.4;
@@ -196,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				136325FF1B61B7690082AC65 /* LaunchScreen.xib in Resources */,
+				136326AC1B621A000082AC65 /* ConflictParticle.sks in Resources */,
 				136325FC1B61B7690082AC65 /* Images.xcassets in Resources */,
 				136325FA1B61B7690082AC65 /* Main.storyboard in Resources */,
 			);
@@ -346,7 +351,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BallGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -356,7 +363,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BallGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -415,6 +424,7 @@
 				136326101B61B76A0082AC65 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		136326111B61B76A0082AC65 /* Build configuration list for PBXNativeTarget "BallGameTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +433,7 @@
 				136326131B61B76A0082AC65 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -9,10 +9,7 @@
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
-    // 地面のスプライト
-    var floorSprite = SKSpriteNode()
-    
+
     func initObjects(){
         // ボール
         for i in 0..<10 {
@@ -30,11 +27,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.physicsBody?.linearDamping = 0.0 // 空気抵抗
             ball.physicsBody?.mass = 1.0 // 質量
             ball.physicsBody?.friction = 0.0 // 摩擦
+            ball.physicsBody?.contactTestBitMask = 1
         }
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        println("衝突")
+        if let nodeA = contact.bodyA.node {
+            if let nodeB = contact.bodyB.node {
+                if nodeA.name == "frame" || nodeB.name == "frame" {
+                    // 壁との衝突
+                    return
+                }else {
+                    // ボール同士の衝突
+                    // パーティクル生成
+                    let particle = SKEmitterNode(fileNamed: "ConflictParticle.sks")
+                    self.addChild(particle)
+
+                    // ぶつかるたびにパーティクルが増えて処理が重くなるため
+                    // パーティクルを表示してから1秒後に削除する
+                    var removeAction = SKAction.removeFromParent()
+                    var durationAction = SKAction.waitForDuration(1)
+                    var sequenceAction = SKAction.sequence([durationAction, removeAction])
+                    particle.runAction(sequenceAction)
+                
+                    // ボールの位置にパーティクルを移動
+                    particle.position = CGPoint(x: nodeA.position.x, y: nodeA.position.y)
+                    particle.alpha = 1
+                
+                    var fadeAction = SKAction.fadeAlphaBy(0, duration: 0.5)
+                    particle.runAction(fadeAction)
+                }
+            }
+        }
     }
     
     override func didMoveToView(view: SKView) {
@@ -46,6 +70,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.restitution = 1.0 // 反発係数
         self.physicsBody?.linearDamping = 0.0 // 空気抵抗
         self.physicsBody?.friction = 0.0 // 摩擦
+        self.name = "frame"
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {

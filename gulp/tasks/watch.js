@@ -13,4 +13,7 @@ gulp.task('watch', ['server'], function() {
 
     // jade
     gulp.watch(config.jade, ['jade', browserSync.reload]);
+
+    // images
+    gulp.watch(config.imagemin, ['imagemin', browserSync.reload]);
 });

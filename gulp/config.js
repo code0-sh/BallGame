@@ -19,6 +19,12 @@ module.exports = {
         dest: dest + '/',
     },
 
+    imagemin: {
+        src: src + '/images/*.+(jpg|jpeg|png|gif|svg)',
+        dest: dest + '/images',
+        options: {optimizationLevel: 7}
+    },
+
     webpack: {
         entry: src + '/js/app.js',
         output: {
@@ -60,6 +66,7 @@ module.exports = {
     watch: {
         js: relativeSrcPath + '/js/**',
         styl: relativeSrcPath + '/styl/**',
-        jade: relativeSrcPath + '/jade/**'
+        jade: relativeSrcPath + '/jade/**',
+        imagemin: relativeSrcPath + '/images/**'
     }
 }

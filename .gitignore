@@ -1,5 +1,5 @@
 # Xcode (from gitignore.io)
-build/
+
 *.pbxuser
 !default.pbxuser
 *.mode1v3

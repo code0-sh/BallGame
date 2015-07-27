@@ -24,3 +24,10 @@ Podfile.lock
 *.swp
 !.gitkeep
 .DS_Store
+
+gulp
+bower.json
+gulpfile.js
+package.json
+node_modules
+bower_components

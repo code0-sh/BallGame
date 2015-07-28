@@ -1,6 +1,6 @@
 // @file config.js
 var path = require('path');
-var dest = './build';
+var dest = '.';
 var src = './src';
 var relativeSrcPath = path.relative('.', src);
 var BowerWebpackPlugin = require('bower-webpack-plugin');

@@ -10,6 +10,6 @@ gulp.task('jade', function () {
   gulp.src(config.src)
     .pipe(plumber({errorHandler: notify.onError("<%= error.message %>")})) // エラー出ても止まらないようにする
     .pipe(using())
-    .pipe(jade())
+    .pipe(jade(config.options))
     .pipe(gulp.dest(config.dest))
 });

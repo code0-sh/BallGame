@@ -17,6 +17,7 @@ module.exports = {
     jade: {
         src: src + '/jade/**.jade',
         dest: dest + '/',
+        options: {pretty: true}
     },
 
     imagemin: {

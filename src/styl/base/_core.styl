@@ -1,11 +1,84 @@
 // @file _core.styl
 body
-  padding 10px
+  padding 0
   font-size 14px
+
+.container
+	padding 20px
+
+.main-title
+	font-size 18px
+	background #CCC
+	padding 10px
+
+.sub-title
+	font-size 16px
+	margin-bottom 5px
+
+.step
+	margin-bottom 10px
 
 .file-title
 	color #730404
+	
+.document
+	padding-left 20px
 
-for num in 0..5
-  .mb{num*10}
-    margin num*10 px 
+.process
+	padding-left 20px
+
+.box
+	padding 10px
+	
+.boxSKView
+	background #B2E3EF
+
+.boxSKScene
+	background #DDEFF1
+
+.boxNode
+	background #F1F2F3
+
+.frame
+	position relative
+	padding 10px
+	margin-bottom 20px
+	border solid 1px #ccc
+	
+	&:nth-child(1)
+		background #7aa8dc
+		
+	&:nth-child(2)
+		background #b2e3ef
+		
+	&:nth-child(3)
+		background #ffd8b2
+	
+	&:nth-child(4)
+		background #b2e3ef
+	
+	&:nth-child(5)
+		background #ffa18f
+	
+	&:nth-child(6)
+		background #b2e3ef
+	
+	&:nth-child(7)
+		background #DDEFF1
+	
+	&:nth-child(8)
+		background #B9E6C7
+		
+	&:nth-child(9)
+		background #B2E3EF
+		
+	&:not(:last-child)::after
+		position absolute
+		left 50%
+		bottom -18px
+		font: normal normal normal 14px/1 FontAwesome;
+		content "\f063";
+
+for num in 0..10
+  .mb{num*5}
+    margin-bottom num*5 px 

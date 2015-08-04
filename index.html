@@ -2,25 +2,59 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>BallBame</title>
-    <link rel="stylesheet" href="css/app.css">
+    <title>SpriteKitを使用したボールの衝突シミュレーション</title>
     <link rel="stylesheet" href="css/highlight.pack.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
-    <div class="step">1.<span class="step-discription">不要な記述を削除する。</span></div>
-    <div class="mb10"><span class="file-title">GameScene.swift</span>
-      <pre><code class="swift">import SpriteKit</code><code class="swift">class GameScene: SKScene {
+    <h1 class="main-title mb25">SpriteKitを使用したボールの衝突シミュレーション</h1>
+    <div class="container">
+      <section class="mb50">
+        <h2 class="sub-title">資料</h2>
+        <ul class="document mb20">
+          <li><a href="https://developer.apple.com/library/ios/documentation/GraphicsAnimation/Conceptual/SpriteKit_PG/Introduction/Introduction.html" target="blank">SpriteKit Programming Guide</a></li>
+          <li><a href="https://developer.apple.com/library/prerelease/ios/documentation/SpriteKit/Reference/SpriteKitFramework_Ref/index.html#//apple_ref/doc/uid/TP40013041" target="blank">SpriteKit Framework Reference</a></li>
+        </ul>
+      </section>
+      <section class="mb50">
+        <h2 class="sub-title">手順</h2>
+        <ol class="process mb20">
+          <li>ビューを生成 (舞台)</li>
+          <li>シーンを追加 (場面)</li>
+          <li>ノードを追加 (登場人物)</li>
+        </ol>
+        <div class="box boxNode">SKSpriteNode/SKLabelNode/SKShapeNode/SKEmitterNode　<br> テクスチャ画像/テキスト/図形/パーティクルのノードを表示するクラス</div>
+        <div class="box boxSKScene">SKScene <br> Sprite Kitのコンテンツのシーンを表示するクラス</div>
+        <div class="box boxSKView">SKView <br> Sprite Kitのコンテンツのビューを表示するクラス</div>
+      </section>
+      <section class="mb50">
+        <h2 class="sub-title">シーンの更新</h2>
+        <div>1フレーム
+          <div class="frame update">-update <br> シーンの更新においてシーンのアクションが評価される前に発生する。</div>
+          <div class="frame SKScene">SKScene evaluates actions</div>
+          <div class="frame didEvaluateActions">-didEvaluateActions <br> シーンの更新においてシーンのアクションが評価された後に発生する。</div>
+          <div class="frame SKScene">SKScene simulates physics</div>
+          <div class="frame didSimulatePhysics">-didSimulatePhysics <br> シーンの更新において物理シミュレーションが行われた後に発生する。</div>
+          <div class="frame SKScene">SKScene applies constraints</div>
+          <div class="frame didApplyConstraints">-didApplyConstraints <br> シーンの更新において制約を適合させた後に発生する。</div>
+          <div class="frame didFinishUpdate">-didFinishUpdate <br> シーンがアニメーションに必要なすべての処理を終わらせた後に呼ぶ。</div>
+          <div class="frame SKView">SKView renders the scene </div>
+        </div>
+        <p>*60fpsなら1秒間に60回フレームの更新が発生する。</p>
+      </section>
+      <h2 class="sub-title">処理</h2>
+      <div class="step">1.<span class="step-discription">不要な記述を削除する。</span></div>
+      <div class="mb10"><span class="file-title">GameScene.swift</span>
+        <pre><code class="swift">import SpriteKit</code><code class="swift">class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
-    }</code><code class="swift">    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-          for touch in (touches as! Set<UITouch>) {
-              let location = touch.locationInNode(self)
-          }
     }</code><code class="swift">    override func update(currentTime: CFTimeInterval) {
     }
 }</code></pre>
-    </div>
-    <div class="mb10"><span class="file-title">GameViewController.swift</span>
-      <pre><code class="swift">import UIKit
+      </div>
+      <div class="mb10">- didMoveToView <br> シーンがビューによって提供された直後に呼び出される。</div>
+      <div class="mb30"><span class="file-title">GameViewController.swift</span>
+        <pre><code class="swift">import UIKit
 import SpriteKit</code><code class="swift">class GameViewController: UIViewController {
    override func viewDidLoad() {
        super.viewDidLoad()
@@ -38,10 +72,10 @@ import SpriteKit</code><code class="swift">class GameViewController: UIViewContr
        return true
    }
 }</code></pre>
-    </div>
-    <div class="step">2.<span class="step-discription">ビュー上にシーンを表示する。</span></div>
-    <div class="mb10"><span class="file-title">GameViewController.swift</span>
-      <pre><code class="swift">import UIKit
+      </div>
+      <div class="step">2.<span class="step-discription">ビュー上にシーンを表示する。</span></div>
+      <div class="mb30"><span class="file-title">GameViewController.swift</span>
+        <pre><code class="swift">import UIKit
 import SpriteKit</code><code class="swift">class GameViewController: UIViewController {
    override func viewDidLoad() {
        super.viewDidLoad()
@@ -71,10 +105,10 @@ import SpriteKit</code><code class="swift">class GameViewController: UIViewContr
        return true
    }
 }</code></pre>
-    </div>
-    <div class="step">3.<span class="step-discription">ボールを配置する。</span></div>
-    <div class="mb10"><span class="file-title">GameScene.swift</span>
-      <pre><code class="swift">import SpriteKit</code><code class="swift">class GameScene: SKScene {
+      </div>
+      <div class="step">3.<span class="step-discription">ボールを配置する。</span></div>
+      <div class="mb30"><span class="file-title">GameScene.swift</span>
+        <pre><code class="swift">import SpriteKit</code><code class="swift">class GameScene: SKScene {
     var ballColor: [CGFloat] = [0, 0, 0] // ボールの色
     var ballCollection: [SKShapeNode] = [];</code><code class="swift">    func initObjects(){
         for i in 0..<10 {
@@ -91,17 +125,13 @@ import SpriteKit</code><code class="swift">class GameViewController: UIViewContr
     }</code><code class="swift">    override func didMoveToView(view: SKView) {
        // 初期化処理
        self.initObjects()
-    }</code><code class="swift">    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-          for touch in (touches as! Set<UITouch>) {
-              let location = touch.locationInNode(self)
-          }
     }</code><code class="swift">    override func update(currentTime: CFTimeInterval) {
     }
 }</code></pre>
-    </div>
-    <div class="step">4.<span class="step-discription">シーンとボールに重力を設定する。</span></div>
-    <div class="mb10"><span class="file-title">GameScene.swift</span>
-      <pre><code class="swift">import SpriteKit</code><code class="swift">class GameScene: SKScene, SKPhysicsContactDelegate {
+      </div>
+      <div class="step">4.<span class="step-discription">シーンとボールに重力を設定する。</span></div>
+      <div class="mb30"><span class="file-title">GameScene.swift</span>
+        <pre><code class="swift">import SpriteKit</code><code class="swift">class GameScene: SKScene, SKPhysicsContactDelegate {
     var ballColor: [CGFloat] = [0, 0, 0] // ボールの色
     var ballCollection: [SKShapeNode] = [];</code><code class="swift">    func initObjects(){
         for i in 0..<10 {
@@ -133,17 +163,13 @@ import SpriteKit</code><code class="swift">class GameViewController: UIViewContr
        self.physicsBody?.linearDamping = 0.0 // 空気抵抗
        self.physicsBody?.friction = 0.0 // 摩擦
        self.name = "frame"
-    }</code><code class="swift">    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-          for touch in (touches as! Set<UITouch>) {
-              let location = touch.locationInNode(self)
-          }
     }</code><code class="swift">    override func update(currentTime: CFTimeInterval) {
     }
 }</code></pre>
-    </div>
-    <div class="step">5.<span class="step-discription">パーティクルを設定する。</span><br> ConflictParticle.sksを追加</div>
-    <div class="mb10"><span class="file-title">GameScene.swift</span>
-      <pre><code class="swift">import SpriteKit</code><code class="swift">class GameScene: SKScene, SKPhysicsContactDelegate {
+      </div>
+      <div class="step">5.<span class="step-discription">パーティクルを設定する。</span><br> ConflictParticle.sksを追加</div>
+      <div class="mb30"><span class="file-title">GameScene.swift</span>
+        <pre><code class="swift">import SpriteKit</code><code class="swift">class GameScene: SKScene, SKPhysicsContactDelegate {
     var ballColor: [CGFloat] = [0, 0, 0] // ボールの色
     var ballCollection: [SKShapeNode] = [];</code><code class="swift">    func initObjects(){
         for i in 0..<10 {
@@ -203,17 +229,13 @@ import SpriteKit</code><code class="swift">class GameViewController: UIViewContr
        self.physicsBody?.linearDamping = 0.0 // 空気抵抗
        self.physicsBody?.friction = 0.0 // 摩擦
        self.name = "frame"
-    }</code><code class="swift">    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-          for touch in (touches as! Set<UITouch>) {
-              let location = touch.locationInNode(self)
-          }
     }</code><code class="swift">    override func update(currentTime: CFTimeInterval) {
     }
 }</code></pre>
-    </div>
-    <div class="step">6.<span class="step-discription">端末の加速度を取得してボールの色を変化させる。</span></div>
-    <div class="mb10"><span class="file-title">GameScene.swift</span>
-      <pre><code class="swift">import SpriteKit
+      </div>
+      <div class="step">6.<span class="step-discription">端末の加速度を取得してボールの色を変化させる。</span></div>
+      <div><span class="file-title">GameScene.swift</span>
+        <pre><code class="swift">import SpriteKit
 import CoreMotion</code><code class="swift">class GameScene: SKScene, SKPhysicsContactDelegate {
     var motionManager: CMMotionManager!  // CMMotionManagerを格納する変数
     var ballColor: [CGFloat] = [0, 0, 0] // ボールの色
@@ -287,16 +309,13 @@ import CoreMotion</code><code class="swift">class GameScene: SKScene, SKPhysicsC
        }
        // 取得開始して、上記で設定したハンドラを呼び出し、ログを表示する
        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: accelerometerHandler)
-    }</code><code class="swift">    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-          for touch in (touches as! Set<UITouch>) {
-              let location = touch.locationInNode(self)
-          }
     }</code><code class="swift">    override func update(currentTime: CFTimeInterval) {
       for ball in ballCollection {
           ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
       }
     }
 }</code></pre>
+      </div>
     </div>
     <script src="js/react-with-addons-0.13.1.js"></script>
     <script src="js/bundle.js"></script>

@@ -19,13 +19,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func initObjects(){
         // ボール
-        for i in 0..<10 {
-            var radius: CGFloat = 20
-            var ball = SKShapeNode(circleOfRadius:radius)
+        for _ in 0..<10 {
+            let radius: CGFloat = 20
+            let ball = SKShapeNode(circleOfRadius:radius)
             ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
             // ランダムに配置
-            var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width-radius*2)))
-            var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height-radius*2)))
+            let randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width-radius*2)))
+            let randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height-radius*2)))
             ball.position = CGPoint(x:randIntX, y:randIntY)
             self.addChild(ball)
             // 重力
@@ -49,21 +49,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     // ボール同士の衝突
                     // パーティクル生成
                     let particle = SKEmitterNode(fileNamed: "ConflictParticle.sks")
-                    self.addChild(particle)
+                    self.addChild(particle!)
 
                     // ぶつかるたびにパーティクルが増えて処理が重くなるため
                     // パーティクルを表示してから1秒後に削除する
-                    var removeAction = SKAction.removeFromParent()
-                    var durationAction = SKAction.waitForDuration(1)
-                    var sequenceAction = SKAction.sequence([durationAction, removeAction])
-                    particle.runAction(sequenceAction)
+                    let removeAction = SKAction.removeFromParent()
+                    let durationAction = SKAction.waitForDuration(1)
+                    let sequenceAction = SKAction.sequence([durationAction, removeAction])
+                    particle!.runAction(sequenceAction)
                 
                     // ボールの位置にパーティクルを移動
-                    particle.position = CGPoint(x: nodeA.position.x, y: nodeA.position.y)
-                    particle.alpha = 1
+                    particle!.position = CGPoint(x: nodeA.position.x, y: nodeA.position.y)
+                    particle!.alpha = 1
                 
-                    var fadeAction = SKAction.fadeAlphaBy(0, duration: 0.5)
-                    particle.runAction(fadeAction)
+                    let fadeAction = SKAction.fadeAlphaBy(0, duration: 0.5)
+                    particle!.runAction(fadeAction)
                 }
             }
         }
@@ -87,17 +87,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         motionManager.accelerometerUpdateInterval = 0.1
         // ハンドラを設定する
         let accelerometerHandler = {
-            (data:CMAccelerometerData!, error:NSError!)-> Void in
-            println("x:\(data.acceleration.x) y:\(data.acceleration.y) z:\(data.acceleration.z)")
-            self.ballColor = [(CGFloat)(abs(data.acceleration.x)), (CGFloat)(abs(data.acceleration.y)), (CGFloat)(abs(data.acceleration.z))]
+            (data:CMAccelerometerData?, error:NSError?)-> Void in
+            print("x:\(data!.acceleration.x) y:\(data!.acceleration.y) z:\(data!.acceleration.z)")
+            self.ballColor = [(CGFloat)(abs(data!.acceleration.x)), (CGFloat)(abs(data!.acceleration.y)), (CGFloat)(abs(data!.acceleration.z))]
         }
         // 取得開始して、上記で設定したハンドラを呼び出し、ログを表示する
-        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: accelerometerHandler)
+        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: accelerometerHandler)
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        for touch in (touches as! Set<UITouch>) {
-            let location = touch.locationInNode(self)
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in (touches ) {
+            _ = touch.locationInNode(self)
         }
     }
    

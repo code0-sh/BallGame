@@ -39,7 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         if let nodeA = contact.bodyA.node {
             if let nodeB = contact.bodyB.node {
                 if nodeA.name == "frame" || nodeB.name == "frame" {
@@ -54,28 +54,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     // ぶつかるたびにパーティクルが増えて処理が重くなるため
                     // パーティクルを表示してから1秒後に削除する
                     let removeAction = SKAction.removeFromParent()
-                    let durationAction = SKAction.waitForDuration(1)
+                    let durationAction = SKAction.wait(forDuration: 1)
                     let sequenceAction = SKAction.sequence([durationAction, removeAction])
-                    particle!.runAction(sequenceAction)
+                    particle!.run(sequenceAction)
                 
                     // ボールの位置にパーティクルを移動
                     particle!.position = CGPoint(x: nodeA.position.x, y: nodeA.position.y)
                     particle!.alpha = 1
                 
-                    let fadeAction = SKAction.fadeAlphaBy(0, duration: 0.5)
-                    particle!.runAction(fadeAction)
+                    let fadeAction = SKAction.fadeAlpha(by: 0, duration: 0.5)
+                    particle!.run(fadeAction)
                 }
             }
         }
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         // 初期化処理
         self.initObjects()
         // 重力
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -3.0)
         self.physicsWorld.contactDelegate = self
-        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         self.physicsBody?.restitution = 1.0 // 反発係数
         self.physicsBody?.linearDamping = 0.0 // 空気抵抗
         self.physicsBody?.friction = 0.0 // 摩擦
@@ -85,23 +85,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         motionManager = CMMotionManager()
         // 加速度の値の取得間隔を設定する
         motionManager.accelerometerUpdateInterval = 0.1
-        // ハンドラを設定する
-        let accelerometerHandler = {
-            (data:CMAccelerometerData?, error:NSError?)-> Void in
+        motionManager.startAccelerometerUpdates(to: OperationQueue.current!, withHandler: {(data, error) in
             print("x:\(data!.acceleration.x) y:\(data!.acceleration.y) z:\(data!.acceleration.z)")
             self.ballColor = [(CGFloat)(abs(data!.acceleration.x)), (CGFloat)(abs(data!.acceleration.y)), (CGFloat)(abs(data!.acceleration.z))]
-        }
-        // 取得開始して、上記で設定したハンドラを呼び出し、ログを表示する
-        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: accelerometerHandler)
+        })
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in (touches ) {
-            _ = touch.locationInNode(self)
+            _ = touch.location(in: self)
         }
     }
    
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         for ball in ballCollection {
             ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
         }

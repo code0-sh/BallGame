@@ -42,7 +42,7 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 
@@ -61,5 +61,5 @@
 
 	React.render(React.createElement(HelloReact, { name: "React" }), document.getElementById("react"));
 
-/***/ }
+/***/ })
 /******/ ]);

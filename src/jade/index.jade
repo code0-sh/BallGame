@@ -3,7 +3,7 @@ html
   head
     meta(charset='UTF-8')
 
-    title SpriteKitを使用したボールの衝突シミュレーション(Swift1.2対応版)
+    title SpriteKitを使用したボールの衝突シミュレーション(Swift3.1対応版)
 
     meta(name='viewport', content='width=device-width, initial-scale=1')
 
@@ -13,19 +13,19 @@ html
 
   body
 
-    h1.main-title.mb25 SpriteKitを使用したボールの衝突シミュレーション(Swift1.2対応版)
+    h1.main-title.mb25 SpriteKitを使用したボールの衝突シミュレーション(Swift3.1対応版)
 
     .container
         section.mb50
             h2.sub-title 動作環境
-            p Xcode 6.4(6E35b)
+            p Xcode 8.3.2(8E2002)
 
         section.mb50
             h2.sub-title 資料
 
             ul.document.mb20
                 li
-                    a(href='https://developer.apple.com/library/ios/documentation/GraphicsAnimation/Conceptual/SpriteKit_PG/Introduction/Introduction.html', target='blank') SpriteKit Programming Guide
+                    a(href='https://www.raywenderlich.com/145318/spritekit-swift-3-tutorial-beginners', target='blank') SpriteKit Swift 3 Tutorial for Beginners
                 li
                     a(href='https://developer.apple.com/library/prerelease/ios/documentation/SpriteKit/Reference/SpriteKitFramework_Ref/index.html#//apple_ref/doc/uid/TP40013041', target='blank') SpriteKit Framework Reference
 
@@ -54,7 +54,7 @@ html
                 div.frame.SKScene SKScene applies constraints
                 div.frame.didApplyConstraints -didApplyConstraints <br> シーンの更新において制約を適合させた後に発生する。
                 div.frame.didFinishUpdate -didFinishUpdate <br> シーンがアニメーションに必要なすべての処理を終わらせた後に呼ぶ。
-                div.frame.SKView SKView renders the scene 
+                div.frame.SKView SKView renders the scene
 
             p *60fpsなら1秒間に60回フレームの更新が発生する。
 
@@ -62,7 +62,7 @@ html
 
         .step 1.
             span.step-discription 不要な記述を削除する。
-    
+
         .mb10
             span.file-title GameScene.swift
             pre
@@ -70,13 +70,13 @@ html
                     |import SpriteKit
                 code.swift
                     |class GameScene: SKScene {
-                    |     override func didMoveToView(view: SKView) {
+                    |     override func didMove(to view: SKView) {
                     |     }
                 code.swift
-                    |     override func update(currentTime: CFTimeInterval) {
+                    |     override func update(_ currentTime: CFTimeInterval) {
                     |     }
                     |}
-        .mb10 - didMoveToView <br> シーンがビューによって提供された直後に呼び出される。
+        .mb10 - didMove <br> シーンがビューによって提供された直後に呼び出される。
 
         .mb30
             span.file-title GameViewController.swift
@@ -90,15 +90,15 @@ html
                     |        super.viewDidLoad()
                     |    }
                 code.swift
-                    |    override func shouldAutorotate() -> Bool {
+                    |    override var shouldAutorotate: Bool {
                     |        return true
                     |    }
                 code.swift
-                    |    override func supportedInterfaceOrientations() -> Int {
-                    |        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-                    |            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+                    |    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+                    |        if UIDevice.current.userInterfaceIdiom == .phone {
+                    |            return UIInterfaceOrientationMask.allButUpsideDown
                     |        } else {
-                    |            return Int(UIInterfaceOrientationMask.All.rawValue)
+                    |            return UIInterfaceOrientationMask.all
                     |        }
                     |    }
                 code.swift
@@ -106,7 +106,7 @@ html
                     |        super.didReceiveMemoryWarning()
                     |    }
                 code.swift
-                    |    override func prefersStatusBarHidden() -> Bool {
+                    |    override var prefersStatusBarHidden: Bool {
                     |        return true
                     |    }
                     |}
@@ -138,15 +138,15 @@ html
                     |        view.presentScene(scene)
                     |    }
                 code.swift
-                    |    override func shouldAutorotate() -> Bool {
+                    |    override var shouldAutorotate: Bool {
                     |        return true
                     |    }
                 code.swift
-                    |    override func supportedInterfaceOrientations() -> Int {
-                    |        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-                    |            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+                    |    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+                    |        if UIDevice.current.userInterfaceIdiom == .phone {
+                    |            return UIInterfaceOrientationMask.allButUpsideDown
                     |        } else {
-                    |            return Int(UIInterfaceOrientationMask.All.rawValue)
+                    |            return UIInterfaceOrientationMask.all
                     |        }
                     |    }
                 code.swift
@@ -154,7 +154,7 @@ html
                     |        super.didReceiveMemoryWarning()
                     |    }
                 code.swift
-                    |    override func prefersStatusBarHidden() -> Bool {
+                    |    override var prefersStatusBarHidden: Bool {
                     |        return true
                     |    }
                     |}
@@ -170,28 +170,28 @@ html
                 code.swift
                     |class GameScene: SKScene {
                     |     var ballColor: [CGFloat] = [0, 0, 0] // ボールの色
-                    |     var ballCollection: [SKShapeNode] = [];
+                    |     var ballCollection: [SKShapeNode] = []
                 code.swift
                     |     func initObjects(){
-                    |         for i in 0..<10 {
+                    |         for _ in 0..<10 {
                     |             var radius: CGFloat = 20
-                    |             var ball = SKShapeNode(circleOfRadius:radius)
+                    |             var ball = SKShapeNode(circleOfRadius: radius)
                     |             ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
                     |             // ランダムに配置
-                    |             var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width-radius*2)))
-                    |             var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height-radius*2)))
+                    |             var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width - radius*2)))
+                    |             var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height - radius*2)))
                     |             ball.position = CGPoint(x:randIntX, y:randIntY)
                     |             self.addChild(ball)
                     |             self.ballCollection.append(ball)
                     |         }
                     |     }
                 code.swift
-                    |     override func didMoveToView(view: SKView) {
+                    |     override func didMove(to view: SKView) {
                     |        // 初期化処理
                     |        self.initObjects()
                     |     }
                 code.swift
-                    |     override func update(currentTime: CFTimeInterval) {
+                    |     override func update(_ currentTime: CFTimeInterval) {
                     |     }
                     |}
 
@@ -206,16 +206,16 @@ html
                 code.swift
                     |class GameScene: SKScene, SKPhysicsContactDelegate {
                     |     var ballColor: [CGFloat] = [0, 0, 0] // ボールの色
-                    |     var ballCollection: [SKShapeNode] = [];
+                    |     var ballCollection: [SKShapeNode] = []
                 code.swift
                     |     func initObjects(){
-                    |         for i in 0..<10 {
+                    |         for _ in 0..<10 {
                     |             var radius: CGFloat = 20
-                    |             var ball = SKShapeNode(circleOfRadius:radius)
+                    |             var ball = SKShapeNode(circleOfRadius: radius)
                     |             ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
                     |             // ランダムに配置
-                    |             var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width-radius*2)))
-                    |             var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height-radius*2)))
+                    |             var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width - radius*2)))
+                    |             var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height - radius*2)))
                     |             ball.position = CGPoint(x:randIntX, y:randIntY)
                     |           　// ボールに重力を設定
                     |           　ball.physicsBody = SKPhysicsBody(circleOfRadius: radius)
@@ -229,20 +229,20 @@ html
                     |         }
                     |     }
                 code.swift
-                    |     override func didMoveToView(view: SKView) {
+                    |     override func didMove(to view: SKView) {
                     |        // 初期化処理
                     |        self.initObjects()
                     |        // シーンに重力を設定
                     |        self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -3.0)
                     |        self.physicsWorld.contactDelegate = self
-                    |        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+                    |        self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
                     |        self.physicsBody?.restitution = 1.0 // 反発係数
                     |        self.physicsBody?.linearDamping = 0.0 // 空気抵抗
                     |        self.physicsBody?.friction = 0.0 // 摩擦
                     |        self.name = "frame"
                     |     }
                 code.swift
-                    |     override func update(currentTime: CFTimeInterval) {
+                    |     override func update(_ currentTime: CFTimeInterval) {
                     |     }
                     |}
 
@@ -258,16 +258,16 @@ html
                 code.swift
                     |class GameScene: SKScene, SKPhysicsContactDelegate {
                     |     var ballColor: [CGFloat] = [0, 0, 0] // ボールの色
-                    |     var ballCollection: [SKShapeNode] = [];
+                    |     var ballCollection: [SKShapeNode] = []
                 code.swift
                     |     func initObjects(){
-                    |         for i in 0..<10 {
+                    |         for _ in 0..<10 {
                     |             var radius: CGFloat = 20
-                    |             var ball = SKShapeNode(circleOfRadius:radius)
+                    |             var ball = SKShapeNode(circleOfRadius: radius)
                     |             ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
                     |             // ランダムに配置
-                    |             var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width-radius*2)))
-                    |             var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height-radius*2)))
+                    |             var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width - radius*2)))
+                    |             var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height - radius*2)))
                     |             ball.position = CGPoint(x:randIntX, y:randIntY)
                     |           　// ボールに重力を設定
                     |           　ball.physicsBody = SKPhysicsBody(circleOfRadius: radius)
@@ -281,7 +281,7 @@ html
                     |         }
                     |     }
                 code.swift
-                    |     func didBeginContact(contact: SKPhysicsContact) {
+                    |     func didBegin(_ contact: SKPhysicsContact) {
                     |         if let nodeA = contact.bodyA.node {
                     |             if let nodeB = contact.bodyB.node {
                     |                 if nodeA.name == "frame" || nodeB.name == "frame" {
@@ -291,40 +291,37 @@ html
                     |                     // ボール同士の衝突
                     |                     // パーティクル生成
                     |                     let particle = SKEmitterNode(fileNamed: "ConflictParticle.sks")
-                    |                     self.addChild(particle)
-                    |                     
+                    |                     self.addChild(particle!)
                     |                     // ぶつかるたびにパーティクルが増えて処理が重くなるため
-                    |                     // パーティクルを表示してから0.1秒後に削除する
+                    |                     // パーティクルを表示してから1秒後に削除する
                     |                     var removeAction = SKAction.removeFromParent()
-                    |                     var durationAction = SKAction.waitForDuration(0.1)
+                    |                     var durationAction = SKAction.wait(forDuration: 1)
                     |                     var sequenceAction = SKAction.sequence([durationAction, removeAction])
-                    |                     particle.runAction(sequenceAction)
-                    |                     
+                    |                     particle.run(sequenceAction)
                     |                     // ボールの位置にパーティクルを移動
                     |                     particle.position = CGPoint(x: nodeA.position.x, y: nodeA.position.y)
                     |                     particle.alpha = 1
-                    |                     
-                    |                     var fadeAction = SKAction.fadeAlphaBy(0, duration: 0.5)
-                    |                     particle.runAction(fadeAction)
+                    |                     var fadeAction = SKAction.fadeAlpha(by: 0, duration: 0.5)
+                    |                     particle.run(fadeAction)
                     |                 }
                     |             }
                     |         }
                     |     }
                 code.swift
-                    |     override func didMoveToView(view: SKView) {
+                    |     override func didMove(to view: SKView) {
                     |        // 初期化処理
                     |        self.initObjects()
                     |        // シーンに重力を設定
                     |        self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -3.0)
                     |        self.physicsWorld.contactDelegate = self
-                    |        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+                    |        self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
                     |        self.physicsBody?.restitution = 1.0 // 反発係数
                     |        self.physicsBody?.linearDamping = 0.0 // 空気抵抗
                     |        self.physicsBody?.friction = 0.0 // 摩擦
                     |        self.name = "frame"
                     |     }
                 code.swift
-                    |     override func update(currentTime: CFTimeInterval) {
+                    |     override func update(_ currentTime: CFTimeInterval) {
                     |     }
                     |}
         .step 6.
@@ -343,13 +340,13 @@ html
                     |     var ballCollection: [SKShapeNode] = [];
                 code.swift
                     |     func initObjects(){
-                    |         for i in 0..<10 {
+                    |         for _ in 0..<10 {
                     |             var radius: CGFloat = 20
-                    |             var ball = SKShapeNode(circleOfRadius:radius)
+                    |             var ball = SKShapeNode(circleOfRadius: radius)
                     |             ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
                     |             // ランダムに配置
-                    |             var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width-radius*2)))
-                    |             var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height-radius*2)))
+                    |             var randIntX = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.width - radius*2)))
+                    |             var randIntY = radius + (CGFloat)(arc4random_uniform((UInt32)(self.frame.height - radius*2)))
                     |             ball.position = CGPoint(x:randIntX, y:randIntY)
                     |           　// ボールに重力を設定
                     |           　ball.physicsBody = SKPhysicsBody(circleOfRadius: radius)
@@ -363,7 +360,7 @@ html
                     |         }
                     |     }
                 code.swift
-                    |     func didBeginContact(contact: SKPhysicsContact) {
+                    |     func didBegin(_ contact: SKPhysicsContact) {
                     |         if let nodeA = contact.bodyA.node {
                     |             if let nodeB = contact.bodyB.node {
                     |                 if nodeA.name == "frame" || nodeB.name == "frame" {
@@ -374,52 +371,45 @@ html
                     |                     // パーティクル生成
                     |                     let particle = SKEmitterNode(fileNamed: "ConflictParticle.sks")
                     |                     self.addChild(particle)
-                    |                     
                     |                     // ぶつかるたびにパーティクルが増えて処理が重くなるため
-                    |                     // パーティクルを表示してから0.1秒後に削除する
+                    |                     // パーティクルを表示してから1秒後に削除する
                     |                     var removeAction = SKAction.removeFromParent()
-                    |                     var durationAction = SKAction.waitForDuration(0.1)
+                    |                     var durationAction = SKAction.wait(forDuration: 1)
                     |                     var sequenceAction = SKAction.sequence([durationAction, removeAction])
-                    |                     particle.runAction(sequenceAction)
-                    |                     
+                    |                     particle.run(sequenceAction)
                     |                     // ボールの位置にパーティクルを移動
                     |                     particle.position = CGPoint(x: nodeA.position.x, y: nodeA.position.y)
                     |                     particle.alpha = 1
-                    |                     
-                    |                     var fadeAction = SKAction.fadeAlphaBy(0, duration: 0.5)
-                    |                     particle.runAction(fadeAction)
+                    |                     var fadeAction = SKAction.fadeAlpha(by: 0, duration: 0.5)
+                    |                     particle.run(fadeAction)
                     |                 }
                     |             }
                     |         }
                     |     }
                 code.swift
-                    |     override func didMoveToView(view: SKView) {
+                    |     override func didMove(to view: SKView) {
                     |        // 初期化処理
                     |        self.initObjects()
                     |        // シーンに重力を設定
                     |        self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -3.0)
                     |        self.physicsWorld.contactDelegate = self
-                    |        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+                    |        self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
                     |        self.physicsBody?.restitution = 1.0 // 反発係数
                     |        self.physicsBody?.linearDamping = 0.0 // 空気抵抗
                     |        self.physicsBody?.friction = 0.0 // 摩擦
                     |        self.name = "frame"
-                code.swift    
+                code.swift
                     |        // CMMotionManagerを生成
                     |        motionManager = CMMotionManager()
                     |        // 加速度の値の取得間隔を設定する
                     |        motionManager.accelerometerUpdateInterval = 0.1
-                    |        // ハンドラを設定する
-                    |        let accelerometerHandler = {
-                    |            (data:CMAccelerometerData!, error:NSError!)-> Void in
-                    |            println("x:\(data.acceleration.x) y:\(data.acceleration.y) z:\(data.acceleration.z)")
-                    |            self.ballColor = [(CGFloat)(abs(data.acceleration.x)), (CGFloat)(abs(data.acceleration.y)), (CGFloat)(abs(data.acceleration.z))]
-                    |        }
-                    |        // 取得開始して、上記で設定したハンドラを呼び出し、ログを表示する
-                    |        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: accelerometerHandler)
+                    |         motionManager.startAccelerometerUpdates(to: OperationQueue.current!, withHandler: {(data, error) in
+                    |           print("x:\(data!.acceleration.x) y:\(data!.acceleration.y) z:\(data!.acceleration.z)")
+                    |            self.ballColor = [(CGFloat)(abs(data!.acceleration.x)), (CGFloat)(abs(data!.acceleration.y)), (CGFloat)(abs(data!.acceleration.z))]
+                    |         })
                     |     }
                 code.swift
-                    |     override func update(currentTime: CFTimeInterval) {
+                    |     override func update(_ currentTime: CFTimeInterval) {
                     |       for ball in ballCollection {
                     |           ball.fillColor = UIColor(red: self.ballColor[0], green: self.ballColor[1], blue: self.ballColor[2], alpha: 1)
                     |       }

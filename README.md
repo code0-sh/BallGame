@@ -1,6 +1,6 @@
-### SpriteKitを使用したボールの衝突シミュレーションの説明(Swift1.2対応版)
+### SpriteKitを使用したボールの衝突シミュレーションの説明(Swift3.1対応版)
 
-[SpriteKitを使用したボールの衝突シミュレーションの説明(Swift1.2対応版)](http://code0-sh.github.io/BallGame/)のソースコードです。
+[SpriteKitを使用したボールの衝突シミュレーションの説明(Swift3.1対応版)](http://code0-sh.github.io/BallGame/)のソースコードです。
 
 ビルドシステムとしてGulp.jsを使用しています。
 
